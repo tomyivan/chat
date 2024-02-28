@@ -7,6 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->group('api', static function ($routes) {
-    $routes->get('chat', 'ChatController::storeMessage');
+    $routes->post('chat', 'ChatController::storeMessage');
     
 });
