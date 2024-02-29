@@ -26,9 +26,10 @@ class CreatePublication extends Migration
             'archivo' => [
                 'type' => 'VARCHAR',
                 'constraint' => 25,
+                'null' => true
             ],
             'fecha_creacion' => [
-                'type' => 'DATE',                
+                'type' => 'DATETIME',                
             ], 
             'usuario_creacion' => [
                 'type' => 'VARCHAR', 
