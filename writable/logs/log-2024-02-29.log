@@ -1,0 +1,1 @@
+ERROR - 2024-02-29 08:47:07 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]El tipo de datos de la columna 'categorias.id_categoria' no coincide con el de la columna 'publicaciones.id_categoria' que hace la referencia en la clave externa 'publicaciones_id_categoria_foreign'.
