@@ -2,3 +2,6 @@ writable/debugbar/debugbar_1708981571.244663.json
 writable/debugbar/*.json
 writable/logs/*.log
 writable/logs/log-2024-02-29.log
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
