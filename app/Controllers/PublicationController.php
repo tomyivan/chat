@@ -21,6 +21,7 @@ class PublicationController extends ResourceController
         $this->publicationModel = new PublicationModel();
         $this->categoryModel = new CategoryModel();
         helper(['form']);        
+        helper('text');
     }
     public function response($status = 400,$error= 400,$message = ["mensaje" => "No se pudo agregar la publicacion"],$info = null) :array
     {   
@@ -38,7 +39,7 @@ class PublicationController extends ResourceController
     }
     public function storePublication()
     {         
-        $this->credential = $this->token->validationToken($this->request->getHeaderLine('token'));        
+        $this->credential = $this->token->validationToken($this->request->getHeaderLine('Authorization'));        
         if($this->credential["error"] == 401)
         {
             return $this->respond($this->credential);
@@ -48,31 +49,35 @@ class PublicationController extends ResourceController
         ];    
         $data = [
             "mensaje" => $this->request->getVar('detail'),            
-            "id_category" => 1,
+            "id_categoria" => 1,
             "fecha_creacion" => $this->dateNow,
             "usuario_creacion" => "323232",
             "activo" => 1
         ];      
         $response = $this->response();  
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
-        // $img = $this->request->getFile('file');
-        // if(!$img->isValid())
+        $file = $this->request->getVar('file');        
+        if ($file) {
+            $fileData = base64_decode($file);
+            $newName = random_string('alnum',32);
+            file_put_contents(WRITEPATH . '../public/uploadFile/publication/' . $newName.'.jpg', $fileData);
+            $response = $this->response(201,null,$file);
+            $data['archivo'] = $newName.'.jpg';
+        }
+    
+        // if (!$file->hasMoved())
         // {
-           
-        // }
-        // if (!$img->hasMoved())
-        // {
-        //     $newName = $img->getRandomName();                
-        //     $img->move("../public/uploadFile/publication", $newName);
+        //     $newName = $file->getRandomName();                
+        //     $file->move("../public/uploadFile/publication", $newName);
         // }
         // $data['file'] = $this->request->getVar('file');
-        $status = $this->publicationModel->save($data);
-        if($status)
-        {   
-            $message = ["mensaje" => "Se agrego correctamente"];
-            $response = $this->response(201,null,$message);
-        }
-        return $this->respond($response);
+        // $status = $this->publicationModel->save($data);
+        // if($status)
+        // {   
+        //     $message = ["mensaje" => "Se agrego correctamente"];
+        //     $response = $this->response(201,null,$message);
+        // }
+        return $this->respond($data);
     }
     public function getCategory()
     {
